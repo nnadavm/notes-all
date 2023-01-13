@@ -1,28 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import './NoteForm.css'
-import { useRef } from 'react';
-import { useState } from "react";
+import AddNote from "../AddNote/AddNote";
 
 function NoteForm() {
-    const inputRef = useRef(null);
     const [inputList, setInputList] = useState([]);
+    const [inputText, setInputText] = useState('');
 
-    function AddNote() {
-        return <div>{inputRef.current.value}</div>
-    };
+    function handleChange(event) {
+        setInputText(event.target.value);
+      };
 
     function handleClick() {
-        setInputList(inputList.concat(<AddNote key={inputList.length} />));
+        if (inputText === '') {
+            return
+        }
+        setInputList(inputList.concat(<AddNote value={inputText} key={inputList.length} />));
+        setInputText('')
     };
 
     return (
         <div>
-
             <div className="form-container d-flex flex-column shadow bg-body-tertiary">
-                <textarea ref={inputRef} className='m-2 rounded border' name="Text1" cols="40" rows="5" placeholder="Your note..."></textarea>
-                <button onClick={handleClick} className="m-2 btn btn-light border bg-white">Add</button>
+                <textarea
+                value={inputText}
+                onChange={handleChange}
+                className='m-2 rounded border'
+                cols="40"
+                rows="5"
+                placeholder="Your note...">
+                </textarea>
+
+                <button
+                onClick={handleClick}
+                className="m-2 btn btn-light border bg-white">
+                Add</button>
+
             </div>
-            <div>{inputList}</div>
+            <div className="d-flex flex-wrap">
+                {inputList}
+            </div>
         </div>
     )
 }

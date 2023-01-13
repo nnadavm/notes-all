@@ -1,9 +1,8 @@
-import './App.css';
 import NoteForm from './components/NoteForm/NoteForm';
 
 function App() {
   return (
-    <div>
+    <div className='p-2'>
       <NoteForm />
     </div>
   );
