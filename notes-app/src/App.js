@@ -1,9 +1,9 @@
-import NoteForm from './components/NoteForm/NoteForm';
+import Notes from './components/Notes/Notes';
 
 function App() {
   return (
     <div className='p-2'>
-      <NoteForm />
+      <Notes />
     </div>
   );
 }
