@@ -1,16 +1,23 @@
 import React from "react";
 
-function NoteForm({ handleChange, handleClick, inputText }) {
+function NoteForm({ handleInputChange, handleTitleChange, handleClick, inputText, noteTitle }) {
     return (
         <div className="form-container d-flex flex-column shadow bg-body-tertiary">
+            <input
+            type="text"
+            placeholder="Title"
+            value={noteTitle}
+            onChange={handleTitleChange}
+            className='m-2 rounded border'
+            />
+            
             <textarea
                 value={inputText}
-                onChange={handleChange}
+                onChange={handleInputChange}
                 className='m-2 rounded border'
                 cols="40"
                 rows="5"
-                placeholder="Your note...">
-            </textarea>
+                placeholder="Your note..."/>
 
             <button
                 onClick={handleClick}

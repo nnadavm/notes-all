@@ -8,9 +8,14 @@ let count = 0;
 function Notes() {
     const [inputList, setInputList] = useState([]);
     const [inputText, setInputText] = useState('');
+    const [noteTitle, setNoteTitle] = useState('');
 
-    function handleChange(event) {
+    function handleInputChange(event) {
         setInputText(event.target.value);
+    };
+    
+    function handleTitleChange(event) {
+        setNoteTitle(event.target.value);
     };
 
     function handleClick() {
@@ -19,16 +24,18 @@ function Notes() {
         }
         setInputList(inputList.concat(
             {
+                title: noteTitle,
                 value: inputText,
                 id: count
             }
         ));
         count++;
-        setInputText('')
+        setInputText('');
+        setNoteTitle('');
     };
 
     function removeNote(noteId) {
-        if (window.confirm('are you sure?')) {
+        if (window.confirm('Are you sure?')) {
             setInputList(inputList.filter((note) => {
                 if (note.id !== noteId) {
                     return note
@@ -40,14 +47,17 @@ function Notes() {
     return (
         <div>
             <NoteForm
-                handleChange={handleChange}
+                handleInputChange={handleInputChange}
+                handleTitleChange={handleTitleChange}
                 handleClick={handleClick}
                 inputText={inputText}
+                noteTitle={noteTitle}
             />
 
             <div className="d-flex flex-wrap">
                 {inputList.map((note) => {
                     return (<AddNote
+                        title={note.title}
                         value={note.value}
                         id={note.id}
                         key={note.id}
