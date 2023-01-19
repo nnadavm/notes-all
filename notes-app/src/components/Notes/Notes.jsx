@@ -3,35 +3,39 @@ import './Notes.css'
 import NoteForm from "../NoteForm/NoteForm";
 import AddNote from "../AddNote/AddNote";
 
-let count = 0;
-
 function Notes() {
     const [inputList, setInputList] = useState([]);
-    const [inputText, setInputText] = useState('');
-    const [noteTitle, setNoteTitle] = useState('');
+    const [count, setCount] = useState(0);
+    const [noteObj, setNoteObj] = useState({
+        noteText: '',
+        noteTitle: '',
+    });
 
-    function handleInputChange(event) {
-        setInputText(event.target.value);
-    };
-    
-    function handleTitleChange(event) {
-        setNoteTitle(event.target.value);
-    };
+    function changeNoteObj(key, value) {
+        setNoteObj((pre) => {
+            return {
+                ...pre,
+                [key]: value
+            }
+        })
+    }
 
     function handleClick() {
-        if (inputText === '') {
+        if (noteObj.noteText === '') {
             return
         }
         setInputList(inputList.concat(
             {
-                title: noteTitle,
-                value: inputText,
+                title: noteObj.noteTitle,
+                value: noteObj.noteText,
                 id: count
             }
         ));
-        count++;
-        setInputText('');
-        setNoteTitle('');
+        setCount(count + 1);
+        setNoteObj({
+            noteText: '',
+            noteTitle: '',
+        })
     };
 
     function removeNote(noteId) {
@@ -47,11 +51,9 @@ function Notes() {
     return (
         <div>
             <NoteForm
-                handleInputChange={handleInputChange}
-                handleTitleChange={handleTitleChange}
+                noteObj={noteObj}
+                changeNoteObj={changeNoteObj}
                 handleClick={handleClick}
-                inputText={inputText}
-                noteTitle={noteTitle}
             />
 
             <div className="d-flex flex-wrap">
