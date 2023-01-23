@@ -13,8 +13,7 @@ function AddNote({ title, value, id, removeNote, handleShow , setModalId }) {
             <div
                 className="card m-2"
                 onClick={() => {
-                    setModalId(id)
-                    handleShow()
+                    handleShow(id)
                 }}
                 id={id}>
 

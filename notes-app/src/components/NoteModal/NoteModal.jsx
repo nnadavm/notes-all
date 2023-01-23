@@ -5,7 +5,6 @@ import Button from 'react-bootstrap/Button';
 
 function NoteModal({ show, handleClose, inputList, modalId }) {
     const i = inputList.findIndex(item => item.id === modalId);
-    console.log(inputList[i])
     const { noteTitle, noteText } = inputList[i];
 
     return (
@@ -19,7 +18,7 @@ function NoteModal({ show, handleClose, inputList, modalId }) {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    
+
                 </Modal.Footer>
             </Modal>
         </>
