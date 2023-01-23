@@ -15,8 +15,7 @@ function Notes() {
     const [modalId, setModalId] = useState();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
-    const handleShow = (id) => {
-        setModalId(id);
+    const handleShow = () => {
         setShow(true);
     }
 
@@ -55,19 +54,18 @@ function Notes() {
         setCount(count + 1);
     }, [inputList])
 
-
     return (
         <div>
-            <button onClick={() => console.log(inputList)}>log</button>
+            <button onClick={()=>console.log(inputList)}>log</button>
 
-            {inputList.length > 0 && modalId !== undefined ? <NoteModal
+            {inputList.length > 0 && modalId !== undefined ?
+            <NoteModal
                 show={show}
                 handleClose={handleClose}
-                handleShow={handleShow}
                 inputList={inputList}
-                setInputList={setInputList}
                 modalId={modalId}
-            /> : ''}
+            />
+            : ''}
 
             <NoteForm
                 noteObj={noteObj}
@@ -84,8 +82,7 @@ function Notes() {
                         key={note.id}
                         removeNote={removeNote}
                         handleShow={handleShow}
-                        isModal={false}
-                        handleClose={handleClose}
+                        setModalId={setModalId}
                     />)
                 })}
             </div>

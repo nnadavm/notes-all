@@ -3,18 +3,10 @@ import AddNote from '../AddNote/AddNote';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
-
-function NoteModal({ show, handleClose, handleShow, inputList, setInputList, modalId }) {
-
-    const { noteTitle, noteText } = inputList[modalId];
-
-    // function saveData(newTitle, newValue) {
-    //     const i = inputList.findIndex(item => item.id === modalId);
-    //     console.log(i)
-    //     inputList[i].noteTitle = newTitle;
-    //     inputList[i].noteText = newValue;
-    //     setInputList(inputList);
-    // }
+function NoteModal({ show, handleClose, inputList, modalId }) {
+    const i = inputList.findIndex(item => item.id === modalId);
+    console.log(inputList[i])
+    const { noteTitle, noteText } = inputList[i];
 
     return (
         <>
