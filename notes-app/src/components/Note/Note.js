@@ -4,8 +4,8 @@ import './Note.css'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-function AddNote({ title, value, id, removeNote, handleShow}) {
-    const [date] = useState(new Date().toLocaleString('he-IL'))
+function Note({ title, text, date, id, removeNote, handleShow}) {
+    // const [date] = useState(new Date().toLocaleString('he-IL'))
 
     const handleRemove = (e) => {
         e.stopPropagation()
@@ -26,11 +26,11 @@ function AddNote({ title, value, id, removeNote, handleShow}) {
                     <div onClick={(e) => handleRemove(e)} className="px-1 py-0 ms-1 border-0">
                         <FontAwesomeIcon className="icon" icon={faTrash} /></div>
                 </div>
-                <p className="card-text">{value}</p>
+                <p className="card-text">{text}</p>
                 <p style={{ fontSize: '14px' }}>{date}</p>
             </div>
         </div>
     )
 };
 
-export default AddNote;
+export default Note;

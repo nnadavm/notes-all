@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import './Notes.css'
 import NoteForm from "../NoteForm/NoteForm";
-import AddNote from "../Note/Note";
+import Note from "../Note/Note";
 import NoteModal from "../NoteModal/NoteModal";
 
 function Notes() {
@@ -10,6 +10,7 @@ function Notes() {
     const [noteObj, setNoteObj] = useState({
         noteText: '',
         noteTitle: '',
+        noteDate: '',
         id: count
     });
     const [modalId, setModalId] = useState();
@@ -40,6 +41,7 @@ function Notes() {
         setNoteObj({
             noteText: '',
             noteTitle: '',
+            noteDate: '',
             id: count
         })
     };
@@ -77,9 +79,10 @@ function Notes() {
 
             <div className="d-flex flex-wrap">
                 {inputList.map((note) => {
-                    return (<AddNote
+                    return (<Note
                         title={note.noteTitle}
-                        value={note.noteText}
+                        text={note.noteText}
+                        date={note.noteDate}
                         id={note.id}
                         key={note.id}
                         removeNote={removeNote}

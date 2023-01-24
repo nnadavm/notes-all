@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import AddNote from '../Note/Note';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
 function NoteModal({ show, handleClose, inputList, modalId }) {
     const i = inputList.findIndex(item => item.id === modalId);
-    const { noteTitle, noteText } = inputList[i];
+    const { noteTitle, noteText, noteDate } = inputList[i];
 
     return (
         <>
@@ -14,7 +13,8 @@ function NoteModal({ show, handleClose, inputList, modalId }) {
                     <Modal.Title>{noteTitle}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>{noteText}</Modal.Body>
-                <Modal.Footer>
+                <Modal.Footer className='d-flex justify-content-between'>
+                    <div>{noteDate}</div>
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
