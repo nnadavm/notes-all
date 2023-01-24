@@ -1,0 +1,13 @@
+.card:hover{
+    outline-style: solid;
+    outline-width: 1px;
+}
+
+.icon{
+    color: grey;
+}
+
+.icon:hover{
+    opacity: 0.7;
+    cursor: pointer;
+}

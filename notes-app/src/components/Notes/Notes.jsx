@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import './Notes.css'
 import NoteForm from "../NoteForm/NoteForm";
-import AddNote from "../AddNote/AddNote";
+import AddNote from "../Note/Note";
 import NoteModal from "../NoteModal/NoteModal";
 
 function Notes() {
@@ -15,11 +15,11 @@ function Notes() {
     const [modalId, setModalId] = useState();
     const [show, setShow] = useState(false);
     const handleClose = () => {
-        setModalId(undefined)
-        setShow(false)
+        setModalId(undefined);
+        setShow(false);
     };
     const handleShow = (id) => {
-        setModalId(id)
+        setModalId(id);
         setShow(true);
     }
 
@@ -84,7 +84,6 @@ function Notes() {
                         key={note.id}
                         removeNote={removeNote}
                         handleShow={handleShow}
-                        setModalId={setModalId}
                     />)
                 })}
             </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AddNote from '../AddNote/AddNote';
+import AddNote from '../Note/Note';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
