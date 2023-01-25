@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
-function NoteModal({ show, handleClose, inputList, modalId }) {
-    const i = inputList.findIndex(item => item.id === modalId);
-    const { noteTitle, noteText, noteDate } = inputList[i];
+function NoteModal({ showModal, handleCloseModal, notesArray, modalId }) {
+    const i = notesArray.findIndex(item => item.id === modalId);
+    const { noteTitle, noteText, noteDate } = notesArray[i];
 
     return (
         <>
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={showModal} onHide={handleCloseModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>{noteTitle}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>{noteText}</Modal.Body>
                 <Modal.Footer className='d-flex justify-content-between'>
                     <div>{noteDate}</div>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button variant="secondary" onClick={handleCloseModal}>
                         Close
                     </Button>
 

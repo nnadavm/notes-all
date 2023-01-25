@@ -1,13 +1,11 @@
 import React from "react";
-import { useState } from "react";
 import './Note.css'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-function Note({ title, text, date, id, removeNote, handleShow}) {
-    // const [date] = useState(new Date().toLocaleString('he-IL'))
+function Note({ title, text, date, id, removeNote, handleShowModal}) {
 
-    const handleRemove = (e) => {
+    function handleRemove(e) {
         e.stopPropagation()
         removeNote(id)
     }
@@ -15,9 +13,7 @@ function Note({ title, text, date, id, removeNote, handleShow}) {
     return (
         <div
             className="card m-2"
-            onClick={() => {
-                handleShow(id)
-            }}
+            onClick={() => {handleShowModal(id)}}
             id={id}>
 
             <div className="card-body">

@@ -5,7 +5,7 @@ import Note from "../Note/Note";
 import NoteModal from "../NoteModal/NoteModal";
 
 function Notes() {
-    const [inputList, setInputList] = useState([]);
+    const [notesArray, setNotesArray] = useState([]);
     const [count, setCount] = useState(0);
     const [noteObj, setNoteObj] = useState({
         noteText: '',
@@ -14,30 +14,32 @@ function Notes() {
         id: count
     });
     const [modalId, setModalId] = useState();
-    const [show, setShow] = useState(false);
-    const handleClose = () => {
+    const [showModal, setShowModal] = useState(false);
+
+    function handleCloseModal() {
         setModalId(undefined);
-        setShow(false);
+        setShowModal(false);
     };
-    const handleShow = (id) => {
+
+    function handleShowModal(id) {
         setModalId(id);
-        setShow(true);
+        setShowModal(true);
     }
 
     function changeNoteObj(key, value) {
-        setNoteObj((pre) => {
+        setNoteObj((prev) => {
             return {
-                ...pre,
+                ...prev,
                 [key]: value
             }
         })
     }
 
-    function handleClick() {
+    function handleSubmit() {
         if (noteObj.noteText === '') {
             return
         }
-        setInputList(inputList.concat(noteObj));
+        setNotesArray(notesArray.concat(noteObj));
         setNoteObj({
             noteText: '',
             noteTitle: '',
@@ -48,7 +50,7 @@ function Notes() {
 
     function removeNote(noteId) {
         if (window.confirm('Are you sure?')) {
-            setInputList(inputList.filter((note) => {
+            setNotesArray(notesArray.filter((note) => {
                 if (note.id !== noteId) {
                     return note
                 }
@@ -58,15 +60,15 @@ function Notes() {
 
     useEffect(() => {
         setCount(count + 1);
-    }, [inputList])
+    }, [notesArray])
 
     return (
         <div>
-            {inputList.length > 0 && modalId !== undefined ?
+            {notesArray.length > 0 && modalId !== undefined ?
                 <NoteModal
-                    show={show}
-                    handleClose={handleClose}
-                    inputList={inputList}
+                    show={showModal}
+                    handleClose={handleCloseModal}
+                    inputList={notesArray}
                     modalId={modalId}
                 />
                 : ''}
@@ -74,11 +76,11 @@ function Notes() {
             <NoteForm
                 noteObj={noteObj}
                 changeNoteObj={changeNoteObj}
-                handleClick={handleClick}
+                handleClick={handleSubmit}
             />
 
             <div className="d-flex flex-wrap">
-                {inputList.map((note) => {
+                {notesArray.map((note) => {
                     return (<Note
                         title={note.noteTitle}
                         text={note.noteText}
@@ -86,7 +88,7 @@ function Notes() {
                         id={note.id}
                         key={note.id}
                         removeNote={removeNote}
-                        handleShow={handleShow}
+                        handleShow={handleShowModal}
                     />)
                 })}
             </div>

@@ -2,9 +2,10 @@ import React from "react";
 import { useState, useEffect, useRef } from "react";
 import './NoteForm.css'
 
-function NoteForm({ handleClick, changeNoteObj, noteObj }) {
+function NoteForm({ handleSubmit, changeNoteObj, noteObj }) {
     const { noteText, noteTitle } = noteObj
     const [textAreaHeight, setTextAreaHeight] = useState(30);
+    const [submitClicked , setSubmitClicked] = useState(false);
     const [show, setShow] = useState(false);
     const ref = useRef(null);
 
@@ -22,11 +23,13 @@ function NoteForm({ handleClick, changeNoteObj, noteObj }) {
         document.addEventListener('click', handleClickOutside)
     }, [])
 
+    useEffect(() => handleSubmit, [submitClicked])
+
     return (
         <div
             className="form-container d-flex flex-column bg-body-tertiary rounded border"
             ref={ref}>
-                
+
             {show && <input
                 type="text"
                 placeholder="Title"
@@ -41,7 +44,7 @@ function NoteForm({ handleClick, changeNoteObj, noteObj }) {
                 onFocus={() => setShow(true)}
                 onChange={(e) => {
                     changeNoteObj('noteText', e.target.value);
-                    changeNoteObj('noteDate', new Date().toLocaleString('he-IL'));
+
                     changeTextAreaHeight(e);
                 }}
                 className='m-2 border-0 textarea'
@@ -55,7 +58,10 @@ function NoteForm({ handleClick, changeNoteObj, noteObj }) {
                 }} />
 
             {show && <button
-                onClick={handleClick}
+                onClick={() => {
+                    changeNoteObj('noteDate', new Date().toLocaleString('he-IL'));
+                    setSubmitClicked(prevState => !prevState)
+                }}
                 className="m-2 btn btn-light border bg-white">
                 Add</button>}
         </div>
