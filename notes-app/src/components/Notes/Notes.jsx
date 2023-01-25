@@ -66,9 +66,9 @@ function Notes() {
         <div>
             {notesArray.length > 0 && modalId !== undefined ?
                 <NoteModal
-                    show={showModal}
-                    handleClose={handleCloseModal}
-                    inputList={notesArray}
+                    showModal={showModal}
+                    handleCloseModal={handleCloseModal}
+                    notesArray={notesArray}
                     modalId={modalId}
                 />
                 : ''}
@@ -76,7 +76,7 @@ function Notes() {
             <NoteForm
                 noteObj={noteObj}
                 changeNoteObj={changeNoteObj}
-                handleClick={handleSubmit}
+                handleSubmit={handleSubmit}
             />
 
             <div className="d-flex flex-wrap">
@@ -88,7 +88,7 @@ function Notes() {
                         id={note.id}
                         key={note.id}
                         removeNote={removeNote}
-                        handleShow={handleShowModal}
+                        handleShowModal={handleShowModal}
                     />)
                 })}
             </div>

@@ -23,7 +23,7 @@ function NoteForm({ handleSubmit, changeNoteObj, noteObj }) {
         document.addEventListener('click', handleClickOutside)
     }, [])
 
-    useEffect(() => handleSubmit, [submitClicked])
+    useEffect(handleSubmit, [submitClicked])
 
     return (
         <div
@@ -65,7 +65,6 @@ function NoteForm({ handleSubmit, changeNoteObj, noteObj }) {
                 className="m-2 btn btn-light border bg-white">
                 Add</button>}
         </div>
-
     )
 }
 
