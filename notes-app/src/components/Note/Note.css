@@ -1,3 +1,9 @@
+.card {
+    height: fit-content !important;
+    /* white-space: pre-wrap; */
+      
+}
+
 .card:hover{
     outline-style: solid;
     outline-width: 1px;

@@ -14,9 +14,8 @@ function Notes() {
         editDate: '',
         id: count
     });
-    const [modalIndex, setModalIndex] = useState();
-    const [modalObj, setModalObj] = useState();
     const [showModal, setShowModal] = useState(false);
+    const [modalIndex, setModalIndex] = useState();
 
     function handleCloseModal() {
         setModalIndex(undefined);
@@ -84,26 +83,13 @@ function Notes() {
     }, [notesArray])
 
     return (
-        <div>
-            {notesArray.length > 0 && modalIndex !== undefined ?
-                <NoteModal
-                    showModal={showModal}
-                    handleCloseModal={handleCloseModal}
-                    notesArray={notesArray}
-                    modalIndex={modalIndex}
-                    noteObj={noteObj}
-                    changeNoteObj={changeNoteObj}
-                    handleSubmit={handleSubmit}
-                    handleUpdate={handleUpdate}    
-                />
-                : ''}
-
+        <>
             <NoteForm
                 noteObj={noteObj}
                 changeNoteObj={changeNoteObj}
                 handleSubmit={handleSubmit}
+                handleUpdate={handleUpdate}
                 modalIndex={modalIndex}
-                handleUpdate={handleUpdate}    
             />
 
             <div className="d-flex flex-wrap">
@@ -120,7 +106,21 @@ function Notes() {
                     />)
                 })}
             </div>
-        </div>
+
+            {notesArray.length > 0 && modalIndex !== undefined ?
+                <NoteModal
+                    showModal={showModal}
+                    handleCloseModal={handleCloseModal}
+                    notesArray={notesArray}
+                    modalIndex={modalIndex}
+                    noteObj={noteObj}
+                    changeNoteObj={changeNoteObj}
+                    handleSubmit={handleSubmit}
+                    handleUpdate={handleUpdate}
+                />
+                : ''}
+
+        </>
     )
 }
 

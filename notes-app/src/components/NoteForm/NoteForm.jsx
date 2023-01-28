@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect, useRef } from "react";
 import './NoteForm.css'
 
-function NoteForm({ handleSubmit, changeNoteObj, noteObj, modalIndex, handleUpdate }) {
+function NoteForm({ changeNoteObj, noteObj, handleSubmit, handleUpdate , modalIndex }) {
     const { noteText, noteTitle } = noteObj
     const [textAreaHeight, setTextAreaHeight] = useState(30);
     const [expand, setExpand] = useState(false);
@@ -38,14 +38,16 @@ function NoteForm({ handleSubmit, changeNoteObj, noteObj, modalIndex, handleUpda
             onChange={dateUpdate}
             ref={ref}>
 
-            {expand || isModal ? <input
+            {expand || isModal ?
+            <input
                 type="text"
                 placeholder="Title"
                 value={noteTitle}
                 onChange={(e) => changeNoteObj('noteTitle', e.target.value)}
                 className='m-2 border-0'
                 style={{ outline: 'none' }}
-            /> : ''}
+            />
+            : ''}
 
             <textarea
                 value={noteText}
@@ -62,17 +64,22 @@ function NoteForm({ handleSubmit, changeNoteObj, noteObj, modalIndex, handleUpda
                     height: `${textAreaHeight}px`,
                     overflow: 'hidden',
                     outline: 'none'
-                }} />
+                }}
+                />
 
-            {expand && !isModal ? <button
+            {expand && !isModal ?
+            <button
                 onClick={handleSubmit}
                 className="m-2 btn btn-light border bg-white">
-                Add</button> : ''}
+                Add</button>
+                : ''}
             
-            {isModal ? <button
+            {isModal ?
+            <button
                 onClick={handleUpdate}
                 className="m-2 btn btn-light border bg-white">
-                Update</button> : ''}
+                Update</button>
+                : ''}
         </div>
     )
 }
