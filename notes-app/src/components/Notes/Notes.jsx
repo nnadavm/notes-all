@@ -11,18 +11,22 @@ function Notes() {
         noteText: '',
         noteTitle: '',
         noteDate: '',
+        editDate: '',
         id: count
     });
-    const [modalId, setModalId] = useState();
+    const [modalIndex, setModalIndex] = useState();
+    const [modalObj, setModalObj] = useState();
     const [showModal, setShowModal] = useState(false);
 
     function handleCloseModal() {
-        setModalId(undefined);
+        setModalIndex(undefined);
         setShowModal(false);
     };
 
     function handleShowModal(id) {
-        setModalId(id);
+        const index = notesArray.findIndex(item => item.id === id);
+        setModalIndex(index);
+        setNoteObj(notesArray[index])
         setShowModal(true);
     }
 
@@ -44,9 +48,26 @@ function Notes() {
             noteText: '',
             noteTitle: '',
             noteDate: '',
+            editDate: '',
             id: count
         })
     };
+
+    function handleUpdate() {
+        if (noteObj.noteText === '') {
+            return
+        }
+        notesArray[modalIndex] = noteObj;
+        setNotesArray(notesArray);
+        setNoteObj({
+            noteText: '',
+            noteTitle: '',
+            noteDate: '',
+            editDate: '',
+            id: count
+        })
+        handleCloseModal();
+    }
 
     function removeNote(noteId) {
         if (window.confirm('Are you sure?')) {
@@ -64,12 +85,16 @@ function Notes() {
 
     return (
         <div>
-            {notesArray.length > 0 && modalId !== undefined ?
+            {notesArray.length > 0 && modalIndex !== undefined ?
                 <NoteModal
                     showModal={showModal}
                     handleCloseModal={handleCloseModal}
                     notesArray={notesArray}
-                    modalId={modalId}
+                    modalIndex={modalIndex}
+                    noteObj={noteObj}
+                    changeNoteObj={changeNoteObj}
+                    handleSubmit={handleSubmit}
+                    handleUpdate={handleUpdate}    
                 />
                 : ''}
 
@@ -77,6 +102,8 @@ function Notes() {
                 noteObj={noteObj}
                 changeNoteObj={changeNoteObj}
                 handleSubmit={handleSubmit}
+                modalIndex={modalIndex}
+                handleUpdate={handleUpdate}    
             />
 
             <div className="d-flex flex-wrap">
@@ -85,6 +112,7 @@ function Notes() {
                         title={note.noteTitle}
                         text={note.noteText}
                         date={note.noteDate}
+                        editDate={note.editDate}
                         id={note.id}
                         key={note.id}
                         removeNote={removeNote}

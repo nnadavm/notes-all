@@ -2,11 +2,11 @@ import React from "react";
 import { useState, useEffect, useRef } from "react";
 import './NoteForm.css'
 
-function NoteForm({ handleSubmit, changeNoteObj, noteObj }) {
+function NoteForm({ handleSubmit, changeNoteObj, noteObj, modalIndex, handleUpdate }) {
     const { noteText, noteTitle } = noteObj
     const [textAreaHeight, setTextAreaHeight] = useState(30);
-    const [submitClicked , setSubmitClicked] = useState(false);
-    const [show, setShow] = useState(false);
+    const [expand, setExpand] = useState(false);
+    const [isModal , setIsModal] = useState(false);
     const ref = useRef(null);
 
     function changeTextAreaHeight(event) {
@@ -15,36 +15,43 @@ function NoteForm({ handleSubmit, changeNoteObj, noteObj }) {
 
     function handleClickOutside(event) {
         if (!ref.current.contains(event.target)) {
-            setShow(false);
+            setExpand(false);
         }
     };
 
-    useEffect(() => {
-        document.addEventListener('click', handleClickOutside)
-    }, [])
+    function dateUpdate() {
+        const date = new Date().toLocaleString('he-IL')
+        !isModal ? changeNoteObj('noteDate', date) : changeNoteObj('editDate', date);
+    }
 
-    useEffect(handleSubmit, [submitClicked])
+    useEffect(() => {
+        if (modalIndex === undefined) {
+            document.addEventListener('click', handleClickOutside)
+        } else {
+            setIsModal(true)
+        }
+    }, [])
 
     return (
         <div
             className="form-container d-flex flex-column bg-body-tertiary rounded border"
+            onChange={dateUpdate}
             ref={ref}>
 
-            {show && <input
+            {expand || isModal ? <input
                 type="text"
                 placeholder="Title"
                 value={noteTitle}
                 onChange={(e) => changeNoteObj('noteTitle', e.target.value)}
                 className='m-2 border-0'
                 style={{ outline: 'none' }}
-            /> }
+            /> : ''}
 
             <textarea
                 value={noteText}
-                onFocus={() => setShow(true)}
+                onFocus={() => setExpand(true)}
                 onChange={(e) => {
                     changeNoteObj('noteText', e.target.value);
-
                     changeTextAreaHeight(e);
                 }}
                 className='m-2 border-0 textarea'
@@ -57,13 +64,15 @@ function NoteForm({ handleSubmit, changeNoteObj, noteObj }) {
                     outline: 'none'
                 }} />
 
-            {show && <button
-                onClick={() => {
-                    changeNoteObj('noteDate', new Date().toLocaleString('he-IL'));
-                    setSubmitClicked(prevState => !prevState)
-                }}
+            {expand && !isModal ? <button
+                onClick={handleSubmit}
                 className="m-2 btn btn-light border bg-white">
-                Add</button>}
+                Add</button> : ''}
+            
+            {isModal ? <button
+                onClick={handleUpdate}
+                className="m-2 btn btn-light border bg-white">
+                Update</button> : ''}
         </div>
     )
 }

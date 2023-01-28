@@ -1,25 +1,20 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
+import NoteForm from '../NoteForm/NoteForm';
+import './NoteModal.css'
 
-function NoteModal({ showModal, handleCloseModal, notesArray, modalId }) {
-    const i = notesArray.findIndex(item => item.id === modalId);
-    const { noteTitle, noteText, noteDate } = notesArray[i];
+function NoteModal({ showModal, handleCloseModal, modalIndex, noteObj, changeNoteObj, handleSubmit, handleUpdate }) {
 
     return (
         <>
-            <Modal show={showModal} onHide={handleCloseModal}>
-                <Modal.Header closeButton>
-                    <Modal.Title>{noteTitle}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>{noteText}</Modal.Body>
-                <Modal.Footer className='d-flex justify-content-between'>
-                    <div>{noteDate}</div>
-                    <Button variant="secondary" onClick={handleCloseModal}>
-                        Close
-                    </Button>
-
-                </Modal.Footer>
+            <Modal size="sm" show={showModal} onHide={handleCloseModal}>
+                <NoteForm
+                    noteObj={noteObj}
+                    changeNoteObj={changeNoteObj}
+                    handleSubmit={handleSubmit}
+                    modalIndex={modalIndex}
+                    handleUpdate={handleUpdate}
+                />
             </Modal>
         </>
     );

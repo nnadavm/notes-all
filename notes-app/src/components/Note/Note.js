@@ -3,7 +3,7 @@ import './Note.css'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-function Note({ title, text, date, id, removeNote, handleShowModal}) {
+function Note({ title, text, date, editDate, id, removeNote, handleShowModal}) {
 
     function handleRemove(e) {
         e.stopPropagation()
@@ -24,6 +24,7 @@ function Note({ title, text, date, id, removeNote, handleShowModal}) {
                 </div>
                 <p className="card-text">{text}</p>
                 <p style={{ fontSize: '14px' }}>{date}</p>
+                {editDate !== '' ? <p style={{ fontSize: '12px', fontStyle: 'italic' }}>Edited: {editDate}</p> : ''}
             </div>
         </div>
     )
