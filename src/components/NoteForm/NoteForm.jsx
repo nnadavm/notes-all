@@ -69,14 +69,20 @@ function NoteForm({ changeNoteObj, noteObj, handleSubmit, handleUpdate , modalIn
 
             {expand && !isModal ?
             <button
-                onClick={handleSubmit}
+                onClick={() => {
+                    handleSubmit();
+                    setTextAreaHeight(30);
+                }}
                 className="m-2 btn btn-light border bg-white">
                 Add</button>
                 : ''}
             
             {isModal ?
             <button
-                onClick={handleUpdate}
+                onClick={() => {
+                    handleUpdate()
+                    setTextAreaHeight(30);
+                }}
                 className="m-2 btn btn-light border bg-white">
                 Update</button>
                 : ''}
