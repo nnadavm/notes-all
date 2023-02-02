@@ -82,7 +82,15 @@ function Notes() {
     }
 
     useEffect(() => {
+        const localstorage = JSON.parse(localStorage.getItem('notesStorage'));
+        if (localstorage !== null) {
+            setNotesArray(localstorage);
+        } 
+    }, [])
+
+    useEffect(() => {
         setCount(uuid());
+        localStorage.setItem('notesStorage', JSON.stringify(notesArray));
     }, [notesArray])
 
     return (
