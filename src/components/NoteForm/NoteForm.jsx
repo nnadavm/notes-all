@@ -5,17 +5,17 @@ import './NoteForm.css'
 function NoteForm({ changeNoteObj, noteObj, handleSubmit, handleUpdate , modalIndex }) {
     const { noteText, noteTitle } = noteObj
     const [textAreaHeight, setTextAreaHeight] = useState(30);
-    const [expand, setExpand] = useState(false);
+    const [isExpand, setIsExpand] = useState(false);
     const [isModal , setIsModal] = useState(false);
-    const ref = useRef(null);
+    const parentDivRef = useRef(null);
 
     function changeTextAreaHeight(event) {
         if (event.target.scrollHeight > textAreaHeight) { setTextAreaHeight(event.target.scrollHeight) }
     };
 
     function handleClickOutside(event) {
-        if (!ref.current.contains(event.target)) {
-            setExpand(false);
+        if (!parentDivRef.current.contains(event.target)) {
+            setIsExpand(false);
         }
     };
 
@@ -36,9 +36,9 @@ function NoteForm({ changeNoteObj, noteObj, handleSubmit, handleUpdate , modalIn
         <div
             className="form-container d-flex flex-column bg-body-tertiary rounded border"
             onChange={dateUpdate}
-            ref={ref}>
+            ref={parentDivRef}>
 
-            {expand || isModal ?
+            {isExpand || isModal ?
             <input
                 type="text"
                 placeholder="Title"
@@ -51,7 +51,7 @@ function NoteForm({ changeNoteObj, noteObj, handleSubmit, handleUpdate , modalIn
 
             <textarea
                 value={noteText}
-                onFocus={() => setExpand(true)}
+                onFocus={() => setIsExpand(true)}
                 onChange={(e) => {
                     changeNoteObj('noteText', e.target.value);
                     changeTextAreaHeight(e);
@@ -67,7 +67,7 @@ function NoteForm({ changeNoteObj, noteObj, handleSubmit, handleUpdate , modalIn
                 }}
                 />
 
-            {expand && !isModal ?
+            {isExpand && !isModal ?
             <button
                 onClick={() => {
                     handleSubmit();

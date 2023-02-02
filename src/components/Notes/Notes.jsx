@@ -3,6 +3,7 @@ import './Notes.css'
 import NoteForm from "../NoteForm/NoteForm";
 import Note from "../Note/Note";
 import NoteModal from "../NoteModal/NoteModal";
+import { v4 as uuid } from 'uuid';
 
 function Notes() {
     const [notesArray, setNotesArray] = useState([]);
@@ -12,13 +13,13 @@ function Notes() {
         noteTitle: '',
         noteDate: '',
         editDate: '',
-        id: count
+        id: uuid()
     });
     const [showModal, setShowModal] = useState(false);
     const [modalIndex, setModalIndex] = useState();
 
     function handleCloseModal() {
-        setModalIndex(undefined);
+        setModalIndex(null);
         setShowModal(false);
     };
 
@@ -39,7 +40,9 @@ function Notes() {
     }
 
     function handleSubmit() {
+        console.log(notesArray);
         if (noteObj.noteText === '') {
+            alert('Add note text!')
             return
         }
         setNotesArray(notesArray.concat(noteObj));
@@ -48,7 +51,7 @@ function Notes() {
             noteTitle: '',
             noteDate: '',
             editDate: '',
-            id: count
+            id: uuid()
         })
     };
 
@@ -63,7 +66,7 @@ function Notes() {
             noteTitle: '',
             noteDate: '',
             editDate: '',
-            id: count
+            id: uuid()
         })
         handleCloseModal();
     }
@@ -79,7 +82,7 @@ function Notes() {
     }
 
     useEffect(() => {
-        setCount(count + 1);
+        setCount(uuid());
     }, [notesArray])
 
     return (
