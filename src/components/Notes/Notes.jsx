@@ -7,7 +7,7 @@ import { v4 as uuid } from 'uuid';
 
 function Notes() {
     const [notesArray, setNotesArray] = useState([]);
-    const [count, setCount] = useState(0);
+    const [id, setId] = useState(0);
     const [noteObj, setNoteObj] = useState({
         noteText: '',
         noteTitle: '',
@@ -39,13 +39,18 @@ function Notes() {
         })
     }
 
-    function handleSubmit() {
-        console.log(notesArray);
+    function handleSubmit(isEdit) {
         if (noteObj.noteText === '') {
             alert('Add note text!')
             return
         }
-        setNotesArray(notesArray.concat(noteObj));
+        const date = new Date().toLocaleString('he-IL')
+        const key = isEdit ? "editDate" : "noteDate";
+        const newObj = {
+            ...noteObj,
+            [key]: date
+        };
+        setNotesArray([...notesArray, newObj]);
         setNoteObj({
             noteText: '',
             noteTitle: '',
@@ -55,11 +60,17 @@ function Notes() {
         })
     };
 
-    function handleUpdate() {
+    function handleUpdate(isEdit) {
         if (noteObj.noteText === '') {
             return
         }
-        notesArray[modalIndex] = noteObj;
+        const date = new Date().toLocaleString('he-IL')
+        const key = isEdit ? "editDate" : "noteDate";
+        const newObj = {
+            ...noteObj,
+            [key]: date
+        };
+        notesArray[modalIndex] = newObj;
         setNotesArray(notesArray);
         setNoteObj({
             noteText: '',
@@ -89,8 +100,10 @@ function Notes() {
     }, [])
 
     useEffect(() => {
-        setCount(uuid());
-        localStorage.setItem('notesStorage', JSON.stringify(notesArray));
+        if (id !== 0) {
+            localStorage.setItem('notesStorage', JSON.stringify(notesArray));
+        }
+        setId(uuid());
     }, [notesArray])
 
     return (
@@ -105,13 +118,14 @@ function Notes() {
 
             <div className="d-flex flex-wrap">
                 {notesArray.map((note) => {
+                    const { noteTitle, noteText, noteDate, editDate, id } = note;
                     return (<Note
-                        title={note.noteTitle}
-                        text={note.noteText}
-                        date={note.noteDate}
-                        editDate={note.editDate}
-                        id={note.id}
-                        key={note.id}
+                        title={noteTitle}
+                        text={noteText}
+                        date={noteDate}
+                        editDate={editDate}
+                        id={id}
+                        key={id}
                         removeNote={removeNote}
                         handleShowModal={handleShowModal}
                     />)

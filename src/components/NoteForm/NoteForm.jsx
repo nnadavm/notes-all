@@ -19,11 +19,6 @@ function NoteForm({ changeNoteObj, noteObj, handleSubmit, handleUpdate , modalIn
         }
     };
 
-    function dateUpdate() {
-        const date = new Date().toLocaleString('he-IL')
-        !isModal ? changeNoteObj('noteDate', date) : changeNoteObj('editDate', date);
-    }
-
     useEffect(() => {
         if (modalIndex === undefined) {
             document.addEventListener('click', handleClickOutside)
@@ -35,7 +30,6 @@ function NoteForm({ changeNoteObj, noteObj, handleSubmit, handleUpdate , modalIn
     return (
         <div
             className="form-container d-flex flex-column bg-body-tertiary rounded border"
-            onChange={dateUpdate}
             ref={parentDivRef}>
 
             {isExpand || isModal ?
@@ -70,7 +64,7 @@ function NoteForm({ changeNoteObj, noteObj, handleSubmit, handleUpdate , modalIn
             {isExpand && !isModal ?
             <button
                 onClick={() => {
-                    handleSubmit();
+                    handleSubmit(isModal);
                     setTextAreaHeight(30);
                 }}
                 className="m-2 btn btn-light border bg-white">
@@ -80,7 +74,7 @@ function NoteForm({ changeNoteObj, noteObj, handleSubmit, handleUpdate , modalIn
             {isModal ?
             <button
                 onClick={() => {
-                    handleUpdate()
+                    handleUpdate(isModal)
                     setTextAreaHeight(30);
                 }}
                 className="m-2 btn btn-light border bg-white">
