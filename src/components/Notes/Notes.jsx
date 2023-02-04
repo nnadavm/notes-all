@@ -3,26 +3,30 @@ import './Notes.css'
 import NoteForm from "../NoteForm/NoteForm";
 import Note from "../Note/Note";
 import NoteModal from "../NoteModal/NoteModal";
+import { v4 as uuid } from 'uuid';
 
 function Notes() {
     const [notesArray, setNotesArray] = useState([]);
-    const [count, setCount] = useState(0);
+    const [id, setId] = useState(0);
     const [noteObj, setNoteObj] = useState({
         noteText: '',
         noteTitle: '',
         noteDate: '',
-        id: count
+        editDate: '',
+        id: uuid()
     });
-    const [modalId, setModalId] = useState();
     const [showModal, setShowModal] = useState(false);
+    const [modalIndex, setModalIndex] = useState();
 
     function handleCloseModal() {
-        setModalId(undefined);
+        setModalIndex(null);
         setShowModal(false);
     };
 
     function handleShowModal(id) {
-        setModalId(id);
+        const index = notesArray.findIndex(item => item.id === id);
+        setModalIndex(index);
+        setNoteObj(notesArray[index])
         setShowModal(true);
     }
 
@@ -35,18 +39,48 @@ function Notes() {
         })
     }
 
-    function handleSubmit() {
+    function handleSubmit(isEdit) {
         if (noteObj.noteText === '') {
+            alert('Add note text!')
             return
         }
-        setNotesArray(notesArray.concat(noteObj));
+        const date = new Date().toLocaleString('he-IL')
+        const key = isEdit ? "editDate" : "noteDate";
+        const newObj = {
+            ...noteObj,
+            [key]: date
+        };
+        setNotesArray([...notesArray, newObj]);
         setNoteObj({
             noteText: '',
             noteTitle: '',
             noteDate: '',
-            id: count
+            editDate: '',
+            id: uuid()
         })
     };
+
+    function handleUpdate(isEdit) {
+        if (noteObj.noteText === '') {
+            return
+        }
+        const date = new Date().toLocaleString('he-IL')
+        const key = isEdit ? "editDate" : "noteDate";
+        const newObj = {
+            ...noteObj,
+            [key]: date
+        };
+        notesArray[modalIndex] = newObj;
+        setNotesArray(notesArray);
+        setNoteObj({
+            noteText: '',
+            noteTitle: '',
+            noteDate: '',
+            editDate: '',
+            id: uuid()
+        })
+        handleCloseModal();
+    }
 
     function removeNote(noteId) {
         if (window.confirm('Are you sure?')) {
@@ -59,40 +93,59 @@ function Notes() {
     }
 
     useEffect(() => {
-        setCount(count + 1);
+        const localstorage = JSON.parse(localStorage.getItem('notesStorage'));
+        if (localstorage !== null) {
+            setNotesArray(localstorage);
+        }
+    }, [])
+
+    useEffect(() => {
+        if (id !== 0) {
+            localStorage.setItem('notesStorage', JSON.stringify(notesArray));
+        }
+        setId(uuid());
     }, [notesArray])
 
     return (
-        <div>
-            {notesArray.length > 0 && modalId !== undefined ?
-                <NoteModal
-                    showModal={showModal}
-                    handleCloseModal={handleCloseModal}
-                    notesArray={notesArray}
-                    modalId={modalId}
-                />
-                : ''}
-
+        <>
             <NoteForm
                 noteObj={noteObj}
                 changeNoteObj={changeNoteObj}
                 handleSubmit={handleSubmit}
+                handleUpdate={handleUpdate}
+                modalIndex={modalIndex}
             />
 
             <div className="d-flex flex-wrap">
                 {notesArray.map((note) => {
+                    const { noteTitle, noteText, noteDate, editDate, id } = note;
                     return (<Note
-                        title={note.noteTitle}
-                        text={note.noteText}
-                        date={note.noteDate}
-                        id={note.id}
-                        key={note.id}
+                        title={noteTitle}
+                        text={noteText}
+                        date={noteDate}
+                        editDate={editDate}
+                        id={id}
+                        key={id}
                         removeNote={removeNote}
                         handleShowModal={handleShowModal}
                     />)
                 })}
             </div>
-        </div>
+
+            {notesArray.length > 0 && modalIndex !== undefined ?
+                <NoteModal
+                    showModal={showModal}
+                    handleCloseModal={handleCloseModal}
+                    notesArray={notesArray}
+                    modalIndex={modalIndex}
+                    noteObj={noteObj}
+                    changeNoteObj={changeNoteObj}
+                    handleSubmit={handleSubmit}
+                    handleUpdate={handleUpdate}
+                />
+                : ''}
+
+        </>
     )
 }
 
